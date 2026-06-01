@@ -1,0 +1,9 @@
+D:\MyPoject\0531\DebugMod\bin\Release\net48\DebugMod.dll
+D:\MyPoject\0531\DebugMod\bin\Release\net48\DebugMod.pdb
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.csproj.AssemblyReference.cache
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.GeneratedMSBuildEditorConfig.editorconfig
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.AssemblyInfoInputs.cache
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.AssemblyInfo.cs
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.csproj.CoreCompileInputs.cache
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.dll
+D:\MyPoject\0531\DebugMod\obj\Release\net48\DebugMod.pdb

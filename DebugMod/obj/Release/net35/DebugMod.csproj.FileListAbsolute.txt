@@ -1,0 +1,5 @@
+D:\MyPoject\0531\DebugMod\obj\Release\net35\DebugMod.csproj.AssemblyReference.cache
+D:\MyPoject\0531\DebugMod\obj\Release\net35\DebugMod.GeneratedMSBuildEditorConfig.editorconfig
+D:\MyPoject\0531\DebugMod\obj\Release\net35\DebugMod.AssemblyInfoInputs.cache
+D:\MyPoject\0531\DebugMod\obj\Release\net35\DebugMod.AssemblyInfo.cs
+D:\MyPoject\0531\DebugMod\obj\Release\net35\DebugMod.csproj.CoreCompileInputs.cache
