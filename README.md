@@ -4,6 +4,10 @@
 
 ---
 
+![menu screenshot](DebugMod/Image/0.png)
+![menu screenshot](DebugMod/Image/1.png)
+![menu screenshot](DebugMod/Image/2.png)
+![menu screenshot](DebugMod/Image/3.png)
 ## 安装方法
 
 ### 1. 安装 MelonLoader
