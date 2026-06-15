@@ -48,7 +48,7 @@ namespace DebugMod
                 TestBtn("随机解锁一枚勋章", () =>
                 {
                     var all = SettingCenter.GetSettings<ClubMedalSetting>().ToList();
-                    if (all.Count > 0) { int ri = Random.Range(0, all.Count); _c.C_Medal.AddMedal(all[ri], true); Log("✅ 已解锁随机勋章"); }
+                    if (all.Count > 0) { int ri = Random.Range(0, all.Count); _c.C_Medal?.AddMedal(all[ri], true); Log("✅ 已解锁随机勋章"); }
                     else Log("❌ 无可用勋章配置");
                 });
                 TestBtn("列举所有可用勋章", () =>
@@ -77,7 +77,7 @@ namespace DebugMod
                 TestBtn("教练晋升 (PromoteCoach)", () => { bool ok = _c.PromoteCoach(); Log(ok ? "✅ 教练晋升成功" : "❌ 教练晋升失败"); });
             });
 
-            DrawTestSection("队员 — 基础信息", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 基础信息", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
@@ -94,6 +94,7 @@ namespace DebugMod
                 }
                 if (ats.Count > 5) Log("  ... 还有 " + (ats.Count - 5) + " 个选手");
 
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 TestBtn("随机立绘 [当前页]", () =>
                 {
                     var a = ats[athPg];
@@ -101,11 +102,12 @@ namespace DebugMod
                 });
             });
 
-            DrawTestSection("队员 — 能力", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 能力", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg];
                 TestBtn("读取5项能力值", () =>
                 {
@@ -121,11 +123,12 @@ namespace DebugMod
                 TestBtn("全部选手全满", () => { if (_c != null) foreach (var aa in _c.Athletes) MaxAth(aa.C_Data); Log("✅ 全部选手已全满"); });
             });
 
-            DrawTestSection("队员 — 英雄池/熟练度", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 英雄池/熟练度", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg]; var ad = a.C_Data;
                 TestBtn("读取英雄池", () =>
                 {
@@ -141,11 +144,12 @@ namespace DebugMod
                 TestBtn("清空英雄池", () => { ad.ClearHeroData(); Log("✅ 英雄池已清空"); });
             });
 
-            DrawTestSection("队员 — 性格/心情", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 性格/心情", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg]; var ad = a.C_Data;
                 TestBtn("读取性格列表", () =>
                 {
@@ -163,11 +167,12 @@ namespace DebugMod
                 TestBtn("清除所有性格", () => { if (ad.Personalities != null) { Utility.PoolSystem.SimplePools.ClearCollection<AthletePersonality>(ad.Personalities); Log("✅ 性格已清除"); } });
             });
 
-            DrawTestSection("队员 — 潜在/魅力/适应", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 潜在/魅力/适应", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg]; var ad = a.C_Data;
                 TestBtn("读取全部潜力", () =>
                 {
@@ -195,20 +200,22 @@ namespace DebugMod
                 });
             });
 
-            DrawTestSection("队员 — 战斗数据/全能选手", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 战斗数据/全能选手", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg];
                 TestBtn("读取对战数据", () =>
                 {
+                    var bfFlags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
                     try
                     {
-                        var bd = a.GetType().GetField("battleData")?.GetValue(a);
+                        var bd = a.GetType().GetField("battleData", bfFlags)?.GetValue(a);
                         if (bd == null) { Log("❌ 无 battleData"); return; }
                         foreach (var bf in new[] { "tacticPoint", "athleteFightSpeed", "athleteAccuracyFight", "athleteEvasionFight", "athleteAccuracyBattle", "athleteEvasionBattle", "athleteEcoEfficiency", "athleteEcoTransferEfficiency" })
-                        { var f = bd.GetType().GetField(bf); if (f != null) Log("  " + bf + "=" + f.GetValue(bd)); }
+                        { var f = bd.GetType().GetField(bf, bfFlags); if (f != null) Log("  " + bf + "=" + f.GetValue(bd)); }
                     }
                     catch (System.Exception ex) { Log("❌ " + ex.Message); }
                 });
@@ -219,11 +226,12 @@ namespace DebugMod
                 });
             });
 
-            DrawTestSection("队员 — 合同", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 合同", C_TITLE_BLUE, () =>
             {
                 if (_c == null) { Log("❌ 无游戏数据"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg];
                 TestBtn("读取合同信息", () =>
                 {
@@ -253,11 +261,12 @@ namespace DebugMod
                 });
             });
 
-            DrawTestSection("队员 — 装备", new Color(0.2f, 0.4f, 0.6f), () =>
+            DrawTestSection("队员 — 装备", C_TITLE_BLUE, () =>
             {
                 if (_b == null) { Log("⏸️ 装备需要战斗中测试 (跳过)"); return; }
                 var ats = _c.Athletes.ToList();
                 if (ats.Count == 0) { Log("❌ 无选手"); return; }
+                athPg = Mathf.Clamp(athPg, 0, ats.Count - 1);
                 var a = ats[athPg];
                 var unit = FindAthleteUnit(a);
                 if (unit == null) { Log("❌ 该选手未在战斗中上场"); return; }
@@ -418,7 +427,7 @@ namespace DebugMod
                 });
             });
 
-            DrawTestSection("游戏内对话框测试", new Color(0.5f, 0.3f, 0.6f), () =>
+            DrawTestSection("游戏内对话框测试", C_TITLE_PURPLE, () =>
             {
                 if (UIManager.View_MessageManager == null) { Log("⏸️ UIManager 未初始化 (跳过)"); return; }
                 var mm = UIManager.View_MessageManager;
@@ -524,10 +533,10 @@ namespace DebugMod
 
             // 日志输出区
             GUILayout.Space(10);
-            Box(new Color(0.15f, 0.15f, 0.15f), "【测试日志】");
+            Box(C_SECTION_BG, "【测试日志】");
             if (!string.IsNullOrEmpty(debugLog))
             {
-                GUI.color = new Color(0.8f, 0.9f, 1f);
+                GUI.color = C_TEXT_ACTIVE;
                 GUILayout.TextArea(debugLog, GUILayout.MinHeight(60));
                 GUI.color = Color.white;
             }
@@ -540,22 +549,26 @@ namespace DebugMod
         void DrawTestSection(string title, Color color, System.Action content)
         {
             Box(color, "▶ " + title);
-            GUI.backgroundColor = new Color(0.18f, 0.18f, 0.22f);
+            GUI.backgroundColor = C_SECTION_BG;
             GUILayout.BeginVertical(GUI.skin.box);
             GUI.backgroundColor = Color.white;
+            GUILayout.Space(2);
             content();
+            GUILayout.Space(2);
             GUILayout.EndVertical();
-            GUILayout.Space(3);
+            GUILayout.Space(4);
         }
 
         void TestBtn(string label, System.Action action)
         {
-            GUI.backgroundColor = new Color(0.25f, 0.35f, 0.5f);
+            GUI.backgroundColor = C_BTN_BLUE;
+            GUI.contentColor = Color.white;
             if (GUILayout.Button(label, GUILayout.Height(22)))
             {
                 action();
             }
             GUI.backgroundColor = Color.white;
+            GUI.contentColor = Color.white;
         }
 
         void Log(string msg)

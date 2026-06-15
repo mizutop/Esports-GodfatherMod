@@ -13,7 +13,7 @@ namespace DebugMod
         void EvtTab()
         {
             Box(C_TITLE_PURPLE, "【触发奖励】");
-            if (_c == null) { GUILayout.Label("无游戏数据"); return; }
+            if (_c == null || _cd == null) { GUILayout.Label("无游戏数据"); return; }
 
             // ---- 俱乐部奖励 ----
             if (Fld("evt_reward", "俱乐部奖励"))
@@ -46,10 +46,10 @@ namespace DebugMod
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("全局游戏速度:", GUILayout.Width(100));
-                spdI = GUILayout.TextField(spdI, GUILayout.Width(60));
+                globalSpdI = GUILayout.TextField(globalSpdI, GUILayout.Width(60));
                 Btn("应用", C_BTN_BLUE, () =>
                 {
-                    if (float.TryParse(spdI, out float sv)) Time.timeScale = sv;
+                    if (float.TryParse(globalSpdI, out float sv)) Time.timeScale = sv;
                 });
                 Btn("重置速度 (1x)", C_BTN_RED, () => Time.timeScale = 1f);
                 GUILayout.EndHorizontal();
@@ -63,7 +63,7 @@ namespace DebugMod
 
         void DrawMedalSection()
         {
-            Box(new Color(0.5f, 0.3f, 0.1f), "勋章 (ClubMedal)");
+            Box(C_BTN_GOLD, "勋章 (ClubMedal)");
             var am = _c.C_Medal?.StoreMedals?.Keys?.ToList();
             GUILayout.Label("已拥有: " + (am?.Count ?? 0) + " 个");
             if (am != null)
@@ -81,7 +81,7 @@ namespace DebugMod
                     if (all.Count > 0)
                     {
                         int ri = Random.Range(0, all.Count);
-                        _c.C_Medal.AddMedal(all[ri], true);
+                        _c?.C_Medal?.AddMedal(all[ri], true);
                     }
                 }
                 catch (System.Exception ex) { LoggerInstance.Msg("随机勋章失败: " + ex.Message); }
@@ -90,7 +90,7 @@ namespace DebugMod
 
         void DrawAchievementSection()
         {
-            Box(new Color(0.3f, 0.3f, 0.6f), "成就 (Achievement)");
+            Box(C_TITLE_PURPLE, "成就 (Achievement)");
             try
             {
                 var achList = Achievement.Setting?.AchievementList;

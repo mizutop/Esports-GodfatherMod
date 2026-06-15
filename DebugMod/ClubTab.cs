@@ -52,7 +52,7 @@ namespace DebugMod
                         try { return m2.Desc == medI; }
                         catch { return false; }
                     });
-                    if (f != null) _c.C_Medal.AddMedal(f, true);
+                    if (f != null && _c.C_Medal != null) _c.C_Medal.AddMedal(f, true);
                 });
                 GUILayout.EndHorizontal();
 
@@ -65,7 +65,7 @@ namespace DebugMod
                         var ms = all[i];
                         string dn = "?";
                         try { dn = ms.Desc ?? "?"; } catch { }
-                        Btn("解锁: " + dn, new Color(0.3f, 0.5f, 0.2f), () => { _c.C_Medal.AddMedal(ms, true); });
+                        Btn("解锁: " + dn, C_BTN_OLIVE, () => { if (_c.C_Medal != null) _c.C_Medal.AddMedal(ms, true); });
                     }
                 }
 
@@ -77,10 +77,11 @@ namespace DebugMod
                         if (all.Count > 0)
                         {
                             int ri = Random.Range(0, all.Count);
-                            _c.C_Medal.AddMedal(all[ri], true);
+                            if (_c.C_Medal != null) _c.C_Medal.AddMedal(all[ri], true);
                         }
                     }
-                    catch (System.Exception ex) { LoggerInstance.Msg("勋章随机解锁失败: " + ex.Message); }
+                    catch (System.Exception ex) { LoggerInstance.Msg("勋章随机解锁失败: " + ex.Message);
+                    }
                 });
             }
 

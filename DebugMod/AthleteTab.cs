@@ -14,7 +14,7 @@ namespace DebugMod
     {
         void AthTab()
         {
-            Box(new Color(0.2f, 0.4f, 0.6f), "【选手能力】");
+            Box(C_TITLE_BLUE, "【选手能力】");
             if (_c == null) { GUILayout.Label("无游戏数据"); return; }
 
             var ats = _c.Athletes.ToList();
@@ -36,7 +36,7 @@ namespace DebugMod
             try { athName = ath.GetName() ?? "?"; } catch { }
             string athPor = "?";
             try { athPor = ath.Portrait_Head ?? "无"; } catch { }
-            Box(new Color(0.15f, 0.3f, 0.5f),
+            Box(C_TITLE_BLUE,
                 "名称: " + athName + " 立绘: " + (athPor.Length > 35 ? athPor.Substring(0, 35) + "..." : athPor));
 
             GUILayout.BeginHorizontal();
@@ -57,8 +57,8 @@ namespace DebugMod
             AbilitySlider("反应", AthleteAbilityFlags.Reflection, ad, MAX_ABILITY);
             AbilitySlider("操作", AthleteAbilityFlags.Exercise, ad, MAX_ABILITY);
 
-            Btn("当前选手全满", new Color(0.2f, 0.3f, 0.6f), () => MaxAth(ad));
-            Btn("全部选手全满", new Color(0.2f, 0.3f, 0.6f), () =>
+            Btn("当前选手全满", C_BTN_BLUE, () => MaxAth(ad));
+            Btn("全部选手全满", C_BTN_BLUE, () =>
             {
                 if (_c != null)
                     foreach (var a in _c.Athletes) MaxAth(a.C_Data);
@@ -156,11 +156,12 @@ namespace DebugMod
                     }
                 }
                 GUI.backgroundColor = Color.white;
-                Btn("X", C_BTN_RED, () => ad.RemoveHeroData(hk, out _), GUILayout.Width(20));
+                var capturedKey = hk;
+                Btn("X", C_BTN_RED, () => ad.RemoveHeroData(capturedKey, out _), GUILayout.Width(20));
                 GUILayout.EndHorizontal();
             }
             if (ad.heroDataDict.Count == 0) GUILayout.Label("  无英雄数据");
-            Btn("全部升至宗师", new Color(0.3f, 0.5f, 0.8f), () => MaxMst(ad));
+            Btn("全部升至宗师", C_BTN_BLUE, () => MaxMst(ad));
             Btn("清空英雄池", C_BTN_RED, () => ad.ClearHeroData());
         }
 
@@ -170,13 +171,17 @@ namespace DebugMod
             GUILayout.Label("当前性格:");
             if (ad.Personalities != null && ad.Personalities.Count > 0)
             {
+                GUILayout.BeginVertical();
+                var seen = new HashSet<AthletePersonality>();
                 foreach (var p in ad.Personalities)
                 {
-                    if (p == null) continue;
+                    if (p == null || seen.Contains(p)) continue;
+                    seen.Add(p);
                     string pn = "?";
                     try { pn = p.Setting?.Name ?? "?"; } catch { }
-                    Box(new Color(0f, 0.5f, 0.5f), "  " + pn);
+                    Box(C_TITLE_TEAL, "  " + pn);
                 }
+                GUILayout.EndVertical();
             }
             else
             {
@@ -191,7 +196,7 @@ namespace DebugMod
             GUILayout.Label("心情: " + emo);
             GUI.color = Color.white;
 
-            Box(new Color(0.2f, 0.4f, 0.7f), "指定性格");
+            Box(C_TITLE_BLUE, "指定性格");
             if (allPerSets.Count == 0)
             {
                 try { allPerSets = SettingCenter.GetSettings<AthletePersonalitySetting>().ToList(); }
@@ -204,7 +209,9 @@ namespace DebugMod
                 int st = perPg * PER_PAGE_SIZE, en = Mathf.Min(st + PER_PAGE_SIZE, allPerSets.Count);
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button("\u25c0", GUILayout.Width(30))) perPg = Mathf.Max(0, perPg - 1);
+                GUI.color = C_TEXT_ACTIVE;
                 GUILayout.Label(string.Format("{0}/{1}", perPg + 1, tp), GUILayout.ExpandWidth(true));
+                GUI.color = Color.white;
                 if (GUILayout.Button("\u25b6", GUILayout.Width(30))) perPg = Mathf.Min(tp - 1, perPg + 1);
                 GUILayout.EndHorizontal();
                 for (int pi = st; pi < en; pi++)
@@ -218,8 +225,7 @@ namespace DebugMod
                     {
                         try
                         {
-                            var np = AthletePersonality.Spawn(capP, ath);
-                            if (ad.Personalities != null) ad.Personalities.Add(np);
+                            AthletePersonality.Spawn(capP, ath);
                         }
                         catch (System.Exception ex)
                         {
@@ -233,14 +239,14 @@ namespace DebugMod
                 if (ad.Personalities != null)
                     SimplePools.ClearCollection<AthletePersonality>(ad.Personalities);
             });
-            Btn("随机变换心情", new Color(0.3f, 0.5f, 0.3f), () => ath.CreateAthleteEmotion());
-            Btn("清除心情", new Color(0.5f, 0.3f, 0.3f), () => { ath.OnRemoveAthleteEmotion(); });
+            Btn("随机变换心情", C_BTN_OLIVE, () => ath.CreateAthleteEmotion());
+            Btn("清除心情", C_BTN_RED, () => { ath.OnRemoveAthleteEmotion(); });
         }
 
         // ===== 高级数据渲染 =====
         void DrawAdvancedStats(Athlete.DataComponent ad, Athlete ath)
         {
-            Box(new Color(0.3f, 0.2f, 0.5f), "能力潜力");
+            Box(C_TITLE_PURPLE, "能力潜力");
             foreach (var fl in ALL_ABILITY_FLAGS)
             {
                 var curRank = ad.GetAbilityPotentialRank(fl);
@@ -261,14 +267,14 @@ namespace DebugMod
                     ad.SetAbilityPotentialRank(fl, AbilityPotentialRank.S_Plus);
             });
 
-            Box(new Color(0.5f, 0.2f, 0.3f), "魅力 (Charm)");
+            Box(C_TITLE_RED, "魅力 (Charm)");
             GUILayout.BeginHorizontal();
             GUILayout.Label("当前: " + ad.GetCharm(), GUILayout.Width(100));
             foreach (AthleteCharmRank cr in ALL_CHARM_RANKS)
                 if (GUILayout.Button(cr.ToString(), GUILayout.Width(35))) ad.SetCharm(cr);
             GUILayout.EndHorizontal();
 
-            Box(new Color(0.2f, 0.4f, 0.4f), "英雄适应性");
+            Box(C_TITLE_TEAL, "英雄适应性");
             foreach (var hc in ALL_HERO_CLASSES)
             {
                 GUILayout.BeginHorizontal();
@@ -277,12 +283,12 @@ namespace DebugMod
                     if (GUILayout.Button(ha.ToString(), GUILayout.Width(30))) ad.SetHeroAdaption(hc, ha);
                 GUILayout.EndHorizontal();
             }
-            Btn("全部适应性 S", new Color(0.4f, 0.5f, 0.3f), () =>
+            Btn("全部适应性 S", C_BTN_OLIVE, () =>
             {
                 foreach (var hc in ALL_HERO_CLASSES) ad.SetHeroAdaption(hc, HeroClassAdaption.S);
             });
 
-            Box(new Color(0.3f, 0.5f, 0.4f), "英雄池容量 / 粉丝");
+            Box(C_TITLE_GREEN, "英雄池容量 / 粉丝");
             GUILayout.BeginHorizontal();
             int poolMax = ad.GetHeroPoolMax();
             GUILayout.Label("上限: " + poolMax, GUILayout.Width(80));
@@ -293,11 +299,11 @@ namespace DebugMod
             if (GUILayout.Button("+10000", GUILayout.Width(55))) ad.AddAthleteFans(10000);
             GUILayout.EndHorizontal();
 
-            Box(new Color(0.4f, 0.3f, 0.3f), "对战数据 (BattleData)");
+            Box(C_TITLE_RED, "对战数据 (BattleData)");
             DrawBattleData(ath);
 
             // 全能选手一键创建
-            Box(new Color(0.6f, 0.4f, 0.2f), "全能选手");
+            Box(C_BTN_GOLD, "全能选手");
             Btn("一键全能 (600/600/18/5/10)", C_BTN_GOLD, () =>
             {
                 try
@@ -311,14 +317,15 @@ namespace DebugMod
 
         void DrawBattleData(Athlete ath)
         {
+            var bfFlags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
             try
             {
-                var bd = ath.GetType().GetField("battleData")?.GetValue(ath);
+                var bd = ath.GetType().GetField("battleData", bfFlags)?.GetValue(ath);
                 if (bd == null) { GUILayout.Label("  无战斗数据"); return; }
                 var bt = bd.GetType();
                 foreach (var bf in BATTLE_DATA_FIELDS)
                 {
-                    var fld = bt.GetField(bf);
+                    var fld = bt.GetField(bf, bfFlags);
                     if (fld == null) continue;
                     object val = fld.GetValue(bd);
                     GUILayout.BeginHorizontal();
@@ -326,11 +333,13 @@ namespace DebugMod
                     if (GUILayout.Button("最大", GUILayout.Width(45)))
                     {
                         if (fld.FieldType == typeof(int)) fld.SetValue(bd, 999);
+                        else if (fld.FieldType == typeof(float)) fld.SetValue(bd, 999f);
                         else fld.SetValue(bd, 999.0);
                     }
                     if (GUILayout.Button("归零", GUILayout.Width(45)))
                     {
                         if (fld.FieldType == typeof(int)) fld.SetValue(bd, 0);
+                        else if (fld.FieldType == typeof(float)) fld.SetValue(bd, 0f);
                         else fld.SetValue(bd, 0.0);
                     }
                     GUILayout.EndHorizontal();

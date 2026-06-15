@@ -26,7 +26,7 @@ namespace DebugMod
 
         // ===== 输入字段 =====
         private string cpI = "99999", tpI = "99999", bgI = "9999999";
-        private string spdI = "3", ccI = "0", medI = "";
+        private string fightSpdI = "3", globalSpdI = "3", ccI = "0", medI = "";
         private string cvHp = "99999", cvShield = "99999", cvGold = "99999", cvTac = "99";
         private string rsCntI = "10", rsLvI = "5", nameI = "";
 
@@ -60,7 +60,7 @@ namespace DebugMod
         public override void OnUpdate()
         {
             if (Input.GetKeyDown(KeyCode.F1)) showPanel = !showPanel;
-            if (Input.GetKeyDown(KeyCode.F2)) { DumpAllGameData(); return; }
+            if (Input.GetKeyDown(KeyCode.F2)) { DumpAllGameData(); }
 
             // 战斗作弊：锁定状态下每帧自动应用
             ApplyBattleCheats();
@@ -142,21 +142,26 @@ namespace DebugMod
 
         void DoWindow(int id)
         {
+            GUI.Box(new Rect(0, 0, panelRect.width, 20), ""); // title bar background
             GUILayout.BeginVertical();
+            GUILayout.Space(4);
             GUILayout.BeginHorizontal();
             for (int i = 0; i < tabNames.Length; i++)
             {
                 bool active = (int)currentTab == i;
-                GUI.backgroundColor = active ? new Color(0.25f, 0.5f, 0.85f) : new Color(0.35f, 0.35f, 0.35f);
-                if (GUILayout.Button(tabNames[i], GUILayout.Height(26)))
+                GUI.backgroundColor = active ? C_TAB_ACTIVE : C_TAB_INACTIVE;
+                GUI.contentColor = active ? Color.white : C_TEXT_INACTIVE;
+                if (GUILayout.Button(tabNames[i], GUILayout.Height(26), GUILayout.MinWidth(60)))
                 {
                     currentTab = (TabType)i;
                     scrollPos = Vector2.zero;
                     RefreshCache();
                 }
+                GUI.contentColor = Color.white;
             }
             GUI.backgroundColor = Color.white;
             GUILayout.EndHorizontal();
+            GUILayout.Space(4);
             scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.ExpandHeight(true));
             switch (currentTab)
             {
@@ -172,70 +177,100 @@ namespace DebugMod
             GUI.DragWindow();
         }
 
-        // ===== 公共 UI 辅助方法 =====
+        // ===== 折叠区 =====
         bool Fld(string k, string l)
         {
             if (!foldouts.ContainsKey(k)) foldouts[k] = false;
             bool v = foldouts[k];
-            GUI.backgroundColor = v ? new Color(0.3f, 0.5f, 0.7f) : new Color(0.25f, 0.25f, 0.25f);
-            GUI.contentColor = v ? Color.white : new Color(0.8f, 0.8f, 0.8f);
+            // 折叠区按钮 — 展开状态用蓝色，折叠状态用暗灰色
+            GUI.backgroundColor = v ? C_FOLDOUT_BG : C_FOLDOUT_INACT;
+            GUI.contentColor = v ? Color.white : C_TEXT_INACTIVE;
             string prefix = v ? "\u25bc " : "\u25b6 ";
+            GUILayout.Space(2);
             foldouts[k] = GUILayout.Toggle(v, prefix + l, GUI.skin.box, GUILayout.MinHeight(22));
             GUI.backgroundColor = Color.white;
             GUI.contentColor = Color.white;
+            GUILayout.Space(v ? 2 : 0);
             return foldouts[k];
         }
 
         void Box(Color c, string t)
         {
+            var pc = GUI.backgroundColor;
             GUI.backgroundColor = c;
-            GUILayout.Label(t, GUI.skin.box);
-            GUI.backgroundColor = Color.white;
+            GUILayout.Label(t, GUI.skin.box, GUILayout.MinHeight(20));
+            GUI.backgroundColor = pc;
         }
 
         void Btn(string t, Color c, System.Action a)
         {
+            var pc = GUI.backgroundColor;
             GUI.backgroundColor = c;
+            GUI.contentColor = Color.white;
             if (GUILayout.Button(t, GUILayout.Height(22))) a();
-            GUI.backgroundColor = Color.white;
+            GUI.backgroundColor = pc;
+            GUI.contentColor = Color.white;
         }
 
         void Btn(string t, Color c, System.Action a, GUILayoutOption o)
         {
+            var pc = GUI.backgroundColor;
             GUI.backgroundColor = c;
+            GUI.contentColor = Color.white;
             if (GUILayout.Button(t, o)) a();
-            GUI.backgroundColor = Color.white;
+            GUI.backgroundColor = pc;
+            GUI.contentColor = Color.white;
         }
 
         void RwdBtn(string t, Color c, System.Action a)
         {
+            var pc = GUI.backgroundColor;
             GUI.backgroundColor = c;
+            GUI.contentColor = Color.white;
             if (GUILayout.Button("\u2605 " + t, GUILayout.Height(24))) a();
-            GUI.backgroundColor = Color.white;
+            GUI.backgroundColor = pc;
+            GUI.contentColor = Color.white;
         }
 
         void Row(string l, string cur, ref string inp, System.Action onSet)
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label(l, GUILayout.Width(80));
+            GUI.color = C_TEXT_ACTIVE;
             GUILayout.Label(cur, GUILayout.Width(60));
+            GUI.color = Color.white;
             inp = GUILayout.TextField(inp, GUILayout.Width(80));
             if (GUILayout.Button("设置", GUILayout.Width(50))) onSet();
             GUILayout.EndHorizontal();
         }
 
-        // ===== 颜色常量 =====
-        private static readonly Color C_TITLE_BLUE = new Color(0.2f, 0.35f, 0.5f);
-        private static readonly Color C_TITLE_GREEN = new Color(0.2f, 0.4f, 0.3f);
-        private static readonly Color C_TITLE_RED = new Color(0.5f, 0.2f, 0.2f);
-        private static readonly Color C_TITLE_PURPLE = new Color(0.3f, 0.25f, 0.5f);
-        private static readonly Color C_BTN_GREEN = new Color(0.3f, 0.6f, 0.3f);
-        private static readonly Color C_BTN_RED = new Color(0.6f, 0.2f, 0.2f);
-        private static readonly Color C_BTN_BLUE = new Color(0.3f, 0.5f, 0.8f);
-        private static readonly Color C_BTN_PURPLE = new Color(0.6f, 0.3f, 0.6f);
-        private static readonly Color C_BTN_GOLD = new Color(0.9f, 0.7f, 0.2f);
-        private static readonly Color C_BTN_ORANGE = new Color(0.8f, 0.5f, 0.1f);
-        private static readonly Color C_BTN_OLIVE = new Color(0.3f, 0.5f, 0.2f);
-        private static readonly Color C_BTN_TEAL = new Color(0.15f, 0.45f, 0.15f);
+        // ===== 统一配色系统 =====
+        /* 主色板 — 深色专业主题，高对比度，低饱和度 */
+        private static readonly Color C_TITLE_BLUE   = new Color(0.18f, 0.32f, 0.48f);
+        private static readonly Color C_TITLE_GREEN  = new Color(0.16f, 0.38f, 0.28f);
+        private static readonly Color C_TITLE_RED    = new Color(0.45f, 0.18f, 0.18f);
+        private static readonly Color C_TITLE_PURPLE = new Color(0.28f, 0.22f, 0.48f);
+        private static readonly Color C_TITLE_TEAL   = new Color(0.14f, 0.40f, 0.40f);
+
+        private static readonly Color C_BTN_GREEN   = new Color(0.28f, 0.55f, 0.28f);
+        private static readonly Color C_BTN_RED     = new Color(0.55f, 0.18f, 0.18f);
+        private static readonly Color C_BTN_BLUE    = new Color(0.28f, 0.48f, 0.75f);
+        private static readonly Color C_BTN_PURPLE  = new Color(0.55f, 0.28f, 0.55f);
+        private static readonly Color C_BTN_GOLD    = new Color(0.85f, 0.65f, 0.15f);
+        private static readonly Color C_BTN_ORANGE  = new Color(0.75f, 0.45f, 0.08f);
+        private static readonly Color C_BTN_OLIVE   = new Color(0.28f, 0.48f, 0.18f);
+        private static readonly Color C_BTN_TEAL    = new Color(0.12f, 0.42f, 0.12f);
+
+        // 文字色
+        private static readonly Color C_TEXT_ACTIVE   = new Color(0.92f, 0.95f, 1.00f);
+        private static readonly Color C_TEXT_INACTIVE = new Color(0.55f, 0.58f, 0.62f);
+
+        // 标签栏
+        private static readonly Color C_TAB_ACTIVE    = new Color(0.22f, 0.48f, 0.82f);
+        private static readonly Color C_TAB_INACTIVE  = new Color(0.32f, 0.32f, 0.34f);
+        private static readonly Color C_FOLDOUT_BG    = new Color(0.14f, 0.28f, 0.42f);
+        private static readonly Color C_FOLDOUT_INACT = new Color(0.20f, 0.20f, 0.22f);
+        private static readonly Color C_SECTION_BG    = new Color(0.15f, 0.15f, 0.18f);
+        private static readonly Color C_HIGHLIGHT     = new Color(0.85f, 0.75f, 0.30f);
     }
 }

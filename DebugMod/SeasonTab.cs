@@ -114,7 +114,7 @@ namespace DebugMod
 
         void DrawFormatButton(string label, MatchFormatTypes type, GameCustom customKey)
         {
-            GUI.backgroundColor = new Color(0.3f, 0.4f, 0.6f);
+            GUI.backgroundColor = C_BTN_BLUE;
             if (GUILayout.Button(label, GUILayout.Width(50)))
             {
                 var cd = GameMain.Main.GameCustomData;

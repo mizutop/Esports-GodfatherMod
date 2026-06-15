@@ -52,10 +52,12 @@ namespace DebugMod
             if (Fld("bat_result", "强制结果 / 速度"))
             {
                 GUILayout.BeginHorizontal();
-                GUI.backgroundColor = _forceWinActive ? (_forceWinPlayer ? C_BTN_GREEN : C_BTN_RED) : Color.gray;
-                if (GUILayout.Button(_forceWinActive
-                    ? (_forceWinPlayer ? "\u26a1 锁定获胜中..." : "\u26a1 锁定失败中...")
-                    : "\u26a1 强制获胜", GUILayout.Height(24)))
+                bool wAct = _forceWinActive && _forceWinPlayer;
+                bool lAct = _forceWinActive && !_forceWinPlayer;
+                GUI.backgroundColor = wAct ? C_BTN_GREEN : (lAct ? Color.gray : C_SECTION_BG);
+                if (GUILayout.Button(wAct
+                    ? "\u26a1 锁定获胜中..."
+                    : "\u26a1 强制获胜", GUILayout.Height(26)))
                 {
                     if (!_forceWinActive)
                     {
@@ -70,10 +72,10 @@ namespace DebugMod
                         LoggerInstance.Msg("ForceWin: 已取消");
                     }
                 }
-                GUI.backgroundColor = _forceWinActive && !_forceWinPlayer ? C_BTN_RED : Color.gray;
-                if (GUILayout.Button(_forceWinActive && !_forceWinPlayer
+                GUI.backgroundColor = lAct ? C_BTN_RED : (wAct ? Color.gray : C_SECTION_BG);
+                if (GUILayout.Button(lAct
                     ? "\u26a1 锁定失败中..."
-                    : "\u26a1 强制失败", GUILayout.Height(24)))
+                    : "\u26a1 强制失败", GUILayout.Height(26)))
                 {
                     if (!_forceWinActive)
                     {
@@ -92,15 +94,19 @@ namespace DebugMod
                 GUILayout.EndHorizontal();
 
                 if (_forceWinActive)
-                    GUILayout.Label(string.Format("  ForceWin 已激活: {0} ({1}帧)",
+                {
+                    GUI.color = C_HIGHLIGHT;
+                    GUILayout.Label(string.Format("  \u26a0 ForceWin 已激活: {0} ({1}帧)",
                         _forceWinPlayer ? "获胜" : "失败", _forceWinFrameCount));
+                    GUI.color = Color.white;
+                }
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("速度:", GUILayout.Width(50));
-                spdI = GUILayout.TextField(spdI, GUILayout.Width(60));
+                fightSpdI = GUILayout.TextField(fightSpdI, GUILayout.Width(60));
                 if (GUILayout.Button("应用", GUILayout.Width(50)))
                 {
-                    if (int.TryParse(spdI, out int v)) _b.C_Data.SetFightSpeed(v);
+                    if (int.TryParse(fightSpdI, out int v)) _b.C_Data.SetFightSpeed(v);
                 }
                 GUILayout.EndHorizontal();
             }
@@ -122,7 +128,7 @@ namespace DebugMod
                         if (int.TryParse(ccI, out int cv)) SetAllCost(team, cv);
                     }
                     GUILayout.EndHorizontal();
-                    Btn("补满手牌", new Color(0.2f, 0.5f, 0.3f), () => FillHand(team));
+                    Btn("补满手牌", C_BTN_GREEN, () => FillHand(team));
                     Btn("清空手牌", C_BTN_RED, () => ClearHand(team));
                 }
 
@@ -151,35 +157,80 @@ namespace DebugMod
             if (!int.TryParse(cvHp, out int hpV)) hpV = 99999;
             if (!int.TryParse(cvShield, out int shV)) shV = 99999;
             if (!int.TryParse(cvGold, out int gdV)) gdV = 99999;
+            var flags = System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
             foreach (var u in team.Heroes)
             {
                 if (u == null) continue;
                 var dc = u.C_Data;
                 var t = dc.GetType();
-                if (il) { var hf = t.GetField("HpCache") ?? t.GetField("hpCache"); if (hf != null) hf.SetValue(dc, hpV); }
+
+                if (il)
+                {
+                    object hpVal = hpV;
+                    var hf = t.GetField("HpCache", flags) ?? t.GetField("hpCache", flags);
+                    if (hf != null)
+                    {
+                        if (hf.FieldType == typeof(float)) hpVal = (float)hpV;
+                        hf.SetValue(dc, hpVal);
+                    }
+                }
                 if (ish)
                 {
-                    var sf = t.GetField("Shield") ?? t.GetField("shield");
-                    if (sf != null) sf.SetValue(dc, shV);
-                    else { var sp = t.GetProperty("Shield"); sp?.SetValue(dc, shV, null); }
+                    object shVal = shV;
+                    var sf = t.GetField("Shield", flags) ?? t.GetField("shield", flags);
+                    if (sf != null)
+                    {
+                        if (sf.FieldType == typeof(float)) shVal = (float)shV;
+                        sf.SetValue(dc, shVal);
+                    }
+                    else
+                    {
+                        var sp = t.GetProperty("Shield", flags);
+                        if (sp != null) sp.SetValue(dc, (sp.PropertyType == typeof(float)) ? (float)shV : shV, null);
+                    }
                 }
                 if (ns)
                 {
-                    var sf = t.GetField("Shield") ?? t.GetField("shield");
-                    if (sf != null) sf.SetValue(dc, 0);
-                    else { var sp = t.GetProperty("Shield"); sp?.SetValue(dc, 0, null); }
+                    var sf = t.GetField("Shield", flags) ?? t.GetField("shield", flags);
+                    if (sf != null)
+                    {
+                        if (sf.FieldType == typeof(float)) sf.SetValue(dc, 0f);
+                        else sf.SetValue(dc, 0);
+                    }
+                    else
+                    {
+                        var sp = t.GetProperty("Shield", flags);
+                        if (sp != null) sp.SetValue(dc, (sp.PropertyType == typeof(float)) ? 0f : 0, null);
+                    }
                 }
                 if (ig)
                 {
-                    var gf = t.GetField("Gold") ?? t.GetField("gold");
-                    if (gf != null) gf.SetValue(dc, gdV);
-                    else { var gp = t.GetProperty("Gold"); gp?.SetValue(dc, gdV, null); }
+                    object gdVal = gdV;
+                    var gf = t.GetField("Gold", flags) ?? t.GetField("gold", flags);
+                    if (gf != null)
+                    {
+                        if (gf.FieldType == typeof(float)) gdVal = (float)gdV;
+                        gf.SetValue(dc, gdVal);
+                    }
+                    else
+                    {
+                        var gp = t.GetProperty("Gold", flags);
+                        if (gp != null) gp.SetValue(dc, (gp.PropertyType == typeof(float)) ? (float)gdV : gdV, null);
+                    }
                 }
                 if (ng)
                 {
-                    var gf = t.GetField("Gold") ?? t.GetField("gold");
-                    if (gf != null) gf.SetValue(dc, 0);
-                    else { var gp = t.GetProperty("Gold"); gp?.SetValue(dc, 0, null); }
+                    var gf = t.GetField("Gold", flags) ?? t.GetField("gold", flags);
+                    if (gf != null)
+                    {
+                        if (gf.FieldType == typeof(float)) gf.SetValue(dc, 0f);
+                        else gf.SetValue(dc, 0);
+                    }
+                    else
+                    {
+                        var gp = t.GetProperty("Gold", flags);
+                        if (gp != null) gp.SetValue(dc, (gp.PropertyType == typeof(float)) ? 0f : 0, null);
+                    }
                 }
             }
         }
@@ -204,16 +255,17 @@ namespace DebugMod
 
         void ForceWinBySuicide(Battle battle, bool playerWin)
         {
-            // 用 BattleTeamIndexSelf 获取正确的基地索引
+            if (battle.Team0 == null || battle.Team1 == null)
+            {
+                LoggerInstance.Msg("ForceWin: 队伍为空"); return;
+            }
             int selfTeamIdx = battle.Team0.BattleTeamIndexSelf;
             int enemyTeamIdx = battle.Team1.BattleTeamIndexSelf;
             int targetTeamIdx = playerWin ? enemyTeamIdx : selfTeamIdx;
             var enemyBase = battle.GetBase(targetTeamIdx);
             if (enemyBase == null) { LoggerInstance.Msg("ForceWin: 无法获取基地"); return; }
-            if (!enemyBase.BattleIsAlive)
-            {
-                return; // 基地已死
-            }
+            if (!enemyBase.BattleIsAlive) return;
+            if (enemyBase.C_Logic == null) { LoggerInstance.Msg("ForceWin: 基地无C_Logic"); return; }
             enemyBase.C_Logic.Suicide();
             LoggerInstance.Msg(string.Format("ForceWin: 基地击杀 ({0}) HP={1}→0",
                 playerWin ? "敌方" : "己方",
