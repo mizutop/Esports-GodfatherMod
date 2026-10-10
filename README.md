@@ -1,107 +1,138 @@
-# 电竞教父 修改器
+# 电竞教父 修改器 · EsportsTrainer
 
-电竞教父 MelonLoader Mod — 游戏内修改面板，按 F1 打开。
+[简体中文](#简体中文) | [English](#english)
 
 ---
-![menu screenshot](1.png)
-![menu screenshot](2.png)
-## 安装方法
 
-### 1. 安装 MelonLoader
+## 简体中文
 
-下载 MelonLoader.Installer：
+电竞教父 MelonLoader Mod — 游戏内修改面板，按 **F1** 打开。
 
-[MelonLoader.Installer.exe 直接下载](https://github.com/LavaGang/MelonLoader.Installer/releases/download/4.3.0/MelonLoader.Installer.exe)
+![面板截图](1.png)
+![面板截图](2.png)
 
-> 或用浏览器打开 [Release 页面](https://github.com/LavaGang/MelonLoader.Installer/releases/tag/4.3.0) 自行选择版本。
+### 安装方法
 
-打开 MelonLoader.Installer，按以下步骤操作：
+**1. 安装 MelonLoader**
+
+下载 [MelonLoader.Installer.exe](https://github.com/LavaGang/MelonLoader.Installer/releases/download/4.3.0/MelonLoader.Installer.exe)：
 
 1. 在列表中找到 **Esport Godfather**（电竞教父）
-2. **Install v0.7.2**（越新越好，但看体质；开发环境为 v0.7.3）
-3. 选择 **MonoBleedingEdge** 版本（游戏使用 Mono，非 IL2CPP）
-4. 安装完成后，**运行一次游戏**，务必进入游戏主界面再退出
-5. 游戏根目录出现 `MelonLoader/` 和 `Mods/` 文件夹即安装成功
+2. **Install v0.7.2**（开发环境为 v0.7.3）
+3. 选择 **MonoBleedingEdge**（游戏为 Mono，非 IL2CPP）
+4. 安装后**运行一次游戏**，进入主界面再退出
+5. 游戏根目录出现 `MelonLoader/` 与 `Mods/` 即成功
 
-### 2. 安装 Mod
+**2. 安装 Mod**：将 `EsportsTrainer.dll` 放入游戏根目录的 `Mods/` 文件夹。
 
-将 `DebugMod.dll` 放入游戏根目录的 `Mods/` 文件夹。
+**3. 启动**：进入主界面按 **F1** 打开面板。
 
-### 3. 启动
+> Steam 游戏目录：Steam 库 → 右键 Esport Godfather → 管理 → 浏览本地文件。
 
-启动游戏，进入主界面后按下 **F1** 打开修改面板。
+### 功能面板
 
----
+| Tab | 功能 |
+|-----|------|
+| **俱乐部** | 资源（教练点/训练点/预算/世界分/粉丝，输入+应用，一键全满）· 勋章（搜索解锁/一键全解锁/分页浏览）· 里程碑（进度/全部解锁领奖/单条解锁）· 发展（晋级/降级、教练晋升、**教练直升 S**、**解锁全部升级项**、**俱乐部升级全部完成**、观众支持度拉满、场地升级、**贷款逐笔金额/利率修改 + 0 元还贷**、训练研究）· 荣誉（奖杯记录明细）· **训练必成**（日常训练必定大成功 / 能力训练必定大成功，Harmony） |
+| **选手** | 能力（五维滑块+单维/全部全满、潜力 D~S+、**能力上限突破（AutoBreak / 超限 999）**、**英雄适应性**官方中文+当前状态+一键全职业 S）· 英雄池（容量输入增减、7 级熟练度、移除、**一键添加全部英雄**、清空）· 特性流派（流派上限、技能槽/卡槽装满、按类型分页添加）· 里程碑（个人里程碑进度/解锁领奖）· 附加（魅力、**粉丝自定义输入增减应用**、称号授予、**职位显示与同位互换**、**性格已添加可删/未添加可加**、**心情 7 级直设 + 全员亢奋**、装备列表增删、战斗数据 10 项精编*战斗中*）· 合同（**年龄/职业生命/分路修改**、**薪资档/签约费档/剩余赛季**、薪资/违约金/满意度实时显示、续约/重置）· 招募（5 分路+能力+年龄、一键满属性改造） |
+| **成就** | 成就（官方中文名、实时进度、单条解锁、一键全部含 Steam 同步）· 队内关系（对立/普通/友好/亲密逐对设置、**一键亲密（主选×全员）**、**全员两两亲密**） |
+| **比赛中** | 赛点/全局（回合数、倍速 x1/x3、暂停恢复、**魔龙/先锋触发倒计时**、双方战术点、**自动BP**、**禁止AI出牌（仅敌方）**、**我方AI自动指挥**、强制获胜/失败、立即终结）· **我方选手 / 敌方选手双区**：逐选手编辑等级经验/当前血量/最大血量/金钱/攻击力/护甲/暴击率/存在感、装备增删 · **战斗结束自动还原全部修改（自动BP 除外）** |
+| **赛事** | 版本规则锁定、训练点倍率、赛事格式 BO1/BO3/BO5、全局速度、F2 数据快照 |
 
-## Steam 游戏根目录快速定位
+**底栏**：尺寸缩放 · **中/EN 语言切换（227+ 词条全覆盖）** · 配色预设（紫电/赤焰/苍翠）· 自定义主/辅/金色 hex · 赞助
 
-Steam 库 → 右键 **Esport Godfather** → 管理 → 浏览本地文件。
+**UI**：实心长方形按钮（任意宽度不变形），normal/hover/active 三态主题配色。
 
----
-
-## 功能面板
-
-| Tab | 折叠区 | 功能 |
-|-----|--------|------|
-| **俱乐部** | (直接显示) | 教练点/训练点/预算 读取与设置、粉丝数显示 |
-| | 勋章系统 | 已解锁勋章列表、按名称搜索解锁、随机解锁、所有勋章分页浏览与一键解锁 |
-| | 训练研究 | 修改训练研究等级与次数 |
-| | 晋级/降级 | 俱乐部晋级/降级、教练晋升 |
-| **队员** | (直接显示) | 选手翻页、名称与立绘显示、修改名称、随机换立绘 |
-| | (直接显示) | 5 项能力滑块（进攻/防守/发育/反应/操作）、当前/全部选手全满 |
-| | 英雄池/熟练度 | 英雄池容量显示、7 级熟练度按钮（入门→宗师）、移除英雄、全部宗师/清空 |
-| | 性格/心情 | 性格列表显示、心情显示（带颜色）、指定性格分页添加、清除性格、随机/清除心情 |
-| | 潜在/适应/战斗数据 | 能力潜力 D~S+、魅力 D~S、英雄适应性 6 类 D~S、英雄池容量增减、对战数据 8 项编辑、全能选手一键创建 |
-| | 合同/续约 | 合同信息显示（薪资/赛季/状态）、续约、重置默认合同、设为自由合同 |
-| | 装备管理 | 当前装备列表显示与移除、列出所有可用装备（战斗中可用） |
-| **战斗** | (直接显示) | 双方队伍单位信息（HP/能量） |
-| | 己方作弊 | 无限 HP/护盾/金钱/战术点 — 每帧自动维持、横扫/清零预设 |
-| | 对方削弱 | 同上锁定开关 |
-| | 强制结果/速度 | 强制获胜/强制失败（基地击杀锁定模式，有 UI 状态反馈）、战斗速度设置 |
-| | 手牌控制 | 手牌/卡池数量显示、批量修改卡牌费用、补满手牌、清空手牌 |
-| | BanPick 控制 | BP 锁定加速（每帧压缩倒计时至 1 秒） |
-| **赛事** | 版本规则 | 锁定规则不变 |
-| | 训练/难度设置 | 训练点倍率设置、恢复默认 |
-| | 赛事格式 | 常规赛/季后赛/决赛 BO1/BO3/BO5 一键切换、恢复默认值 |
-| **事件** | 俱乐部奖励 | 获取预算/教练点/训练点、全员能力+30、全员熟练度升至 10 级 |
-| | 奖杯/勋章/成就 | 勋章显示+随机解锁、成就列表读取+进度显示、单成就解锁、一键全部成就 |
-| | 速度控制 | 全局游戏速度设置/重置 |
-| | 数据工具 | F2 数据快照控制台输出 |
-| **调试** | 22 个功能分区 | 俱乐部/队员/战斗/赛事/事件所有功能逐项测试按钮 + 游戏原生对话框测试（BlueTip/RedTip/PurpleTip/OrangeTip 全部 5 种类型 17 个测试按钮） |
-
----
-
-## 快捷键
+### 快捷键
 
 | 按键 | 功能 |
 |------|------|
 | F1 | 打开/关闭修改面板 |
 | F2 | 输出完整游戏数据快照到 MelonLoader 控制台 |
 
----
-
-## 构建
+### 构建
 
 ```bash
-dotnet build DebugMod/DebugMod.csproj -c Release
+dotnet build Trainer/EsportsTrainer.csproj
 ```
 
-需要 .NET 6 SDK + MelonLoader v0.7.2 (MonoBleedingEdge) 依赖。项目引用：
+需要 .NET SDK（net48 目标）。项目引用（游戏目录内）：
 
 | 依赖 | 路径 |
 |------|------|
-| MelonLoader.dll | `MelonLoader/net35/MelonLoader.dll` |
-| 0Harmony.dll | `MelonLoader/net35/0Harmony.dll` |
-| Assembly-CSharp.dll | `Managed/Assembly-CSharp.dll`（游戏主程序集） |
-| UnityEngine / UnityEngine.CoreModule / 等 | `Managed/` 目录 |
-| FairyGUI.dll | `Managed/FairyGUI.dll`（游戏 UI 框架） |
-| Utility / Utility.GameSystem | `Managed/` 目录 |
+| MelonLoader.dll / 0Harmony.dll | `MelonLoader/net35/` |
+| Assembly-CSharp.dll（游戏主程序集） | `Esport Godfather_Data/Managed/` |
+| UnityEngine 系列 | `Managed/` |
+| FairyGUI.dll（游戏 UI 框架） | `Managed/` |
+| Utility / Utility.GameSystem | `Managed/` |
+
+构建产物自动输出到 `Mods/`，无需手动拷贝。
+
+### 更新日志
+
+见 [CHANGELOG.md](CHANGELOG.md)（v3.5.0：比赛面板重构 / 训练必成 / 职位·合同·贷款编辑 / 中英语言包 / 战斗结束自动还原 等）。
 
 ---
 
-**作者**: Mizuof  
-**B站**: https://space.bilibili.com/516995192/dynamic  
-**QQ群**: 624594852  
-**网站**: www.mizu7.top  
+## English
 
-*本修改器完全免费，请勿用于商业用途。*
+MelonLoader mod for *Esports Godfather* — in-game trainer panel, press **F1** to open.
+
+### Installation
+
+**1. MelonLoader**: run [MelonLoader.Installer.exe](https://github.com/LavaGang/MelonLoader.Installer/releases/download/4.3.0/MelonLoader.Installer.exe), pick **Esport Godfather**, install **v0.7.2** (dev env: v0.7.3), choose **MonoBleedingEdge**, then run the game once to the main menu.
+
+**2. Mod**: drop `EsportsTrainer.dll` into the game's `Mods/` folder.
+
+**3. Launch**: press **F1** in the main menu.
+
+### Features
+
+| Tab | Features |
+|-----|----------|
+| **Club** | Resources (coach/train points, budget, world pts, fans — editable) · Medals (search / unlock all / paged) · Milestones · Development (promote/demote, coach up / **coach to S**, unlock all upgrades, **complete all club upgrades**, max show support, venue upgrade, **per-loan amount & rate editing + 0-cost repay**, training research) · Honors · **Guaranteed Training** (daily always Great Success / ability training always better success, Harmony) |
+| **Athletes** | Abilities (5 sliders, max all, potential D~S+, **break ability limit (AutoBreak / overlimit 999)**, **hero adaptability** with official CN names, live state and one-click S) · Hero pool (capacity editor, 7 mastery levels, **add all heroes**, clear) · Traits/styles (prime set limit, fill skills/cards, paged add by type) · Milestones · Extra (charm, **fans editor**, titles, **position display & swap with substitute**, **personalities added/removable & not-added/addable**, **7-level mood + max mood for all**, equipment add/remove, battle data precision editor in match) · Contract (**age / career life / role** editing, **salary & sign-cost level, seasons left**, live salary/penalty/satisfaction, renew/reset) · Recruit (5 roles, ability & age, max reroll) |
+| **Achievements** | Official CN names, real-time progress, single/all unlock (incl. Steam sync) · Relations (per-pair set, **intimate all**, **all pairs intimate**) |
+| **Match** | Round, speed, pause, **dragon/pioneer countdown**, tactic points both sides, **auto BP**, **forbid AI cards (enemy only)**, **ally AI auto-command**, force win/lose, instant finish · **Our/Enemy athletes dual zone**: per-athlete editing of level/exp, HP, max HP, gold, attack, armor, crit rate, presence, equipment add/remove · **Auto-restore all match edits on battle end (except auto BP)** |
+| **Season** | Lock version rules, train-point multiplier, BO1/BO3/BO5 formats, global speed, F2 snapshot |
+
+**Bottom bar**: UI scale · **CN/EN language toggle (227+ entries)** · theme presets (Violet / Blaze / Verdant) · custom hex colors · donate
+
+**UI**: solid rectangular buttons (no distortion at any width), normal/hover/active themed states.
+
+### Hotkeys
+
+| Key | Action |
+|-----|--------|
+| F1 | Toggle trainer panel |
+| F2 | Dump full data snapshot to console |
+
+### Build
+
+```bash
+dotnet build Trainer/EsportsTrainer.csproj
+```
+
+.NET SDK (net48 target). References (from the game folder):
+
+| Dependency | Path |
+|------|------|
+| MelonLoader.dll / 0Harmony.dll | `MelonLoader/net35/` |
+| Assembly-CSharp.dll | `Esport Godfather_Data/Managed/` |
+| UnityEngine modules | `Managed/` |
+| FairyGUI.dll | `Managed/` |
+| Utility / Utility.GameSystem | `Managed/` |
+
+Build output goes straight to `Mods/` — no manual copy needed.
+
+### Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) (v3.5.0: match panel rebuild / guaranteed training / position·contract·loan editors / CN-EN language pack / auto-restore on battle end, etc.)
+
+---
+
+**作者 / Author**: Mizuof
+**B站**: https://space.bilibili.com/516995192/dynamic
+**网站 / Site**: www.mizu7.top
+
+*本修改器完全免费，请勿用于商业用途。 / Free of charge. Do not use commercially.*
