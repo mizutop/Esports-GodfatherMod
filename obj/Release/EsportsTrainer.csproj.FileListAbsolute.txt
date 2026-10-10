@@ -1,0 +1,7 @@
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.csproj.AssemblyReference.cache
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.GeneratedMSBuildEditorConfig.editorconfig
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.AssemblyInfoInputs.cache
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.AssemblyInfo.cs
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.csproj.CoreCompileInputs.cache
+D:\SteamLibrary\steamapps\common\Esports Godfather\Mods\EsportsTrainer.dll
+d:\MyPoject\0531\Trainer\obj\Release\EsportsTrainer.dll

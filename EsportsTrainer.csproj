@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- 电竞教父 (Esports Godfather) · MonoBleedingEdge · .NET Framework 4.8 -->
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>EsportsTrainer</AssemblyName>
+    <RootNamespace>EsportsTrainer</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>10.0</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <DebugType>none</DebugType>
+    <!-- 构建即部署：直接输出到游戏 Mods 目录 -->
+    <OutputPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Mods\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MelonLoader">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\MelonLoader\net35\MelonLoader.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\MelonLoader\net35\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Utility">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\Utility.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Utility.GameSystem">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\Utility.GameSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\Unity.InputSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FairyGUI">
+      <HintPath>D:\SteamLibrary\steamapps\common\Esports Godfather\Esport Godfather_Data\Managed\FairyGUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

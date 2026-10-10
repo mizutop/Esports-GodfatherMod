@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电竞教父全能修改器 · UI 风格方案</title>
+<style>
+  :root { font-size: 14px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0c10;
+    color: #e8eaed;
+    font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+    padding: 40px 20px 80px;
+  }
+  .page-head { max-width: 980px; margin: 0 auto 40px; }
+  .page-head h1 { font-size: 26px; letter-spacing: 1px; }
+  .page-head p { color: #9aa0a6; margin-top: 8px; line-height: 1.7; }
+  .page-head .hl { color: #4fc3f7; }
+
+  .scheme { max-width: 980px; margin: 0 auto 70px; }
+  .scheme-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .scheme-title .no { font-size: 30px; font-weight: 800; opacity: .25; }
+  .scheme-title h2 { font-size: 20px; }
+  .scheme-title .tag { font-size: 12px; padding: 2px 10px; border-radius: 20px; border: 1px solid #444; color: #9aa0a6; }
+  .scheme-desc { color: #9aa0a6; font-size: 13px; margin-bottom: 16px; line-height: 1.7; }
+  .scheme-desc b { color: #cfd4da; }
+
+  /* ========= 面板公共 ========= */
+  .panel { width: 940px; min-height: 560px; margin: 0 auto; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+  .p-head { display: flex; align-items: center; padding: 0 18px; height: 48px; flex: none; }
+  .p-title { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
+  .p-status { margin-left: auto; display: flex; gap: 18px; font-size: 12px; }
+  .p-nav { display: flex; gap: 6px; padding: 0 18px; flex: none; }
+  .p-nav button { cursor: pointer; border: none; background: transparent; font-size: 13px; padding: 8px 0; letter-spacing: 2px; }
+  .p-body { flex: 1; overflow: auto; padding: 16px 22px; }
+  .p-foot { flex: none; display: flex; align-items: center; font-size: 12px; padding: 8px 18px; }
+  .p-foot .sp { flex: 1; }
+  .sec { margin-bottom: 18px; }
+  .sec-t { font-size: 12px; letter-spacing: 3px; opacity: .65; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .sec-t::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .25; }
+  .row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; font-size: 13px; }
+  .row .lb { width: 64px; opacity: .75; flex: none; }
+  .row .val { width: 90px; flex: none; font-variant-numeric: tabular-nums; }
+  .bar { flex: 1; height: 6px; background: rgba(128,128,128,.18); position: relative; }
+  .bar i { position: absolute; inset: 0 auto 0 0; }
+  .btn { cursor: pointer; border: none; font-size: 12.5px; padding: 7px 16px; letter-spacing: 1px; }
+  .btn.ghost { background: transparent; }
+  .chips { display: flex; gap: 8px; }
+  .chip { font-size: 12px; padding: 3px 10px; }
+  .kv { display: flex; gap: 24px; font-size: 12.5px; margin-bottom: 8px; }
+  .kv b { opacity: .6; font-weight: 400; margin-right: 6px; }
+
+  /* ================= 方案 A · 暗夜电竞 ================= */
+  .a .panel {
+    background: #0d1017;
+    border: 1px solid #1e2733;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+  .a .p-head { border-bottom: 1px solid #1a2330; background: linear-gradient(90deg, rgba(0,229,255,.06), transparent 40%); }
+  .a .p-title { color: #eaf6ff; }
+  .a .p-title em { color: #00e5ff; font-style: normal; }
+  .a .p-status span { color: #6f8199; }
+  .a .p-status .live { color: #ff5470; }
+  .a .p-nav { border-bottom: 1px solid #1a2330; }
+  .a .p-nav button { color: #5d6b7d; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding: 8px 20px; }
+  .a .p-nav button.on { background: linear-gradient(180deg, rgba(0,229,255,.16), rgba(0,229,255,.05)); color: #00e5ff; box-shadow: inset 0 -2px 0 #00e5ff; }
+  .a .sec-t { color: #00e5ff; }
+  .a .row .val { color: #d7f9ff; }
+  .a .bar i { background: linear-gradient(90deg, #00b8d4, #00e5ff); box-shadow: 0 0 8px rgba(0,229,255,.7); }
+  .a .btn { background: linear-gradient(180deg,#00c8e0,#009fae); color: #001318; font-weight: 700; clip-path: polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%); }
+  .a .btn.ghost { color: #7fddea; border: 1px solid #15535e; background: rgba(0,229,255,.05); }
+  .a .p-foot { color: #455366; border-top: 1px solid #1a2330; }
+  .a .p-foot .donate { color: #ffb74d; }
+
+  /* ================= 方案 B · 极简纸白 ================= */
+  .b .panel { background: #fbfbfa; border: 1px solid #e6e4df; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.35); color: #2b2b28; }
+  .b .p-head { border-bottom: 1px solid #eeede9; }
+  .b .p-title { color: #1a1a18; }
+  .b .p-title span { color: #3b82f6; }
+  .b .p-status span { color: #8a8a84; }
+  .b .p-status .live { color: #d97706; }
+  .b .p-nav { gap: 2px; border-bottom: 1px solid #eeede9; padding-top: 8px; }
+  .b .p-nav button { color: #8a8a84; border-radius: 8px 8px 0 0; padding: 8px 18px; }
+  .b .p-nav button.on { background: #eef2ff; color: #3b82f6; font-weight: 600; }
+  .b .sec-t { color: #9a9a92; }
+  .b .bar { border-radius: 99px; }
+  .b .bar i { background: #3b82f6; border-radius: 99px; }
+  .b .row .val { color: #1a1a18; font-weight: 600; }
+  .b .btn { background: #3b82f6; color: #fff; border-radius: 8px; }
+  .b .btn.ghost { color: #3b82f6; border: 1px solid #c7d7fe; }
+  .b .btn.danger { background: #fee2e2; color: #b91c1c; }
+  .b .p-foot { color: #a0a09a; border-top: 1px solid #eeede9; }
+  .b .p-foot .donate { color: #d97706; }
+
+  /* ================= 方案 C · 复古终端 ================= */
+  .c { font-family: Consolas, "Courier New", monospace; }
+  .c .panel { background: #050a05; border: 1px solid #1f4020; box-shadow: inset 0 0 60px rgba(0,255,120,.05); color: #b8f5c4; }
+  .c .p-head { border-bottom: 1px dashed #2c5a2e; }
+  .c .p-title { color: #7dff9a; text-transform: uppercase; }
+  .c .p-status span { color: #4e8f58; }
+  .c .p-status .live { color: #ffd166; }
+  .c .p-nav { border-bottom: 1px dashed #2c5a2e; }
+  .c .p-nav button { color: #4e8f58; }
+  .c .p-nav button.on { color: #0a1f0d; background: #7dff9a; font-weight: 700; }
+  .c .sec-t { color: #4e8f58; }
+  .c .sec-t::after { background: none; border-top: 1px dashed #2c5a2e; }
+  .c .bar { height: 10px; background: #0d1f0e; border: 1px solid #2c5a2e; }
+  .c .bar i { background: repeating-linear-gradient(90deg, #7dff9a 0 6px, #4ade80 6px 8px); }
+  .c .row .val { color: #d9ffe0; }
+  .c .btn { background: #123f18; color: #7dff9a; border: 1px solid #2c5a2e; }
+  .c .btn.ghost { background: transparent; color: #4e8f58; }
+  .c .btn.danger { border-color: #7a2c2c; color: #ff8484; background: #2a0d0d; }
+  .c .p-foot { color: #3f6b46; border-top: 1px dashed #2c5a2e; }
+  .c .p-foot .donate { color: #ffd166; }
+
+  /* ================= 方案 D · 游戏原生拟态 ================= */
+  .d .panel {
+    color: #eae6f5;
+    background:
+      linear-gradient(160deg, rgba(88,60,180,.35), rgba(20,16,40,.92) 45%),
+      linear-gradient(20deg, rgba(0,180,220,.25), rgba(10,8,24,.9) 55%),
+      #12101f;
+    border: 1px solid #4d3f86;
+    box-shadow: 0 0 0 1px #241d44, 0 20px 60px rgba(0,0,0,.6);
+  }
+  .d .p-head {
+    background: linear-gradient(90deg, #7b4dff33, transparent 50%), linear-gradient(90deg, #00c2ff22, transparent 40%);
+    border-bottom: 2px solid;
+    border-image: linear-gradient(90deg, #a86bff, #00c2ff) 1;
+  }
+  .d .p-title { font-size: 17px; font-weight: 800; font-style: italic; letter-spacing: 1px;
+    background: linear-gradient(180deg,#fff,#b9a6ff); -webkit-background-clip: text; background-clip: text; color: transparent;
+    text-shadow: 0 0 18px rgba(140,90,255,.45); }
+  .d .p-status span { color: #b7aed6; }
+  .d .p-status .live { color: #ff8ac2; }
+  .d .p-nav { background: rgba(10,8,24,.55); border-bottom: 1px solid #3c3270; }
+  .d .p-nav button { color: #a99fd0; font-weight: 700; font-style: italic; transform: skewX(-12deg); margin: 6px 2px; border: 1px solid transparent; }
+  .d .p-nav button span { display: inline-block; transform: skewX(12deg); padding: 0 6px; }
+  .d .p-nav button.on { color: #fff; background: linear-gradient(180deg,#8a5cff,#5b34d6); border-color: #b9a1ff; box-shadow: 0 0 14px rgba(122,77,255,.55); }
+  .d .sec-t { color: #c9b8ff; }
+  .d .sec-t::after { background: linear-gradient(90deg, #8a5cff88, transparent); }
+  .d .bar { height: 10px; border: 1px solid #4d3f86; background: #1b1636; transform: skewX(-12deg); }
+  .d .bar i { background: linear-gradient(90deg,#00c2ff,#a86bff); box-shadow: 0 0 10px rgba(140,90,255,.6); }
+  .d .row .val { color: #ffe08a; font-weight: 700; }
+  .d .btn { background: linear-gradient(180deg,#ffcf5c,#e8961e); color: #3a2400; font-weight: 800; font-style: italic;
+    clip-path: polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%); }
+  .d .btn.ghost { background: rgba(255,255,255,.08); color: #d9ccff; border: 1px solid #5a4b9e; }
+  .d .btn.hex { background: linear-gradient(180deg,#00c2ff,#0a7fd6); color: #001a2b; }
+  .d .p-foot { color: #8f84bb; border-top: 1px solid #3c3270; }
+  .d .p-foot .donate { color: #ffcf5c; }
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>电竞教父全能修改器 · UI 风格方案 ×4</h1>
+  <p>每个方案都是<span class="hl">可交互仿真稿</span>（Tab 可点击切换）。内容统一使用「队员 · 能力」与「俱乐部 · 资源」两组真实数据结构，方便直接对照 IMGUI 实现。选定风格后我按该视觉规范重写 Theme/Components 层。</p>
+</div>
+
+<!-- ============ A ============ -->
+<div class="scheme a">
+  <div class="scheme-title"><span class="no">A</span><h2>暗夜电竞 · 霓虹切角</h2><span class="tag">Cyber Esports</span></div>
+  <div class="scheme-desc"><b>气质：</b>LoL 客户端 / 电竞直播 Ob 视感。深蓝黑底 + 青色霓虹 + 斜切角按钮。<b>适合：</b>游戏调性最贴合，长时间盯着不刺眼；<b>代价：</b>IMGUI 需自绘切角（两端渐变贴图），实现成本中。</div>
+  <div class="panel">
+    <div class="p-head">
+      <div class="p-title">ESPORTS GODFATHER <em>TRAINER</em></div>
+      <div class="p-status"><span>第2年 8月 第3周</span><span>预算 1,250,000</span><span class="live">● 战斗中</span></div>
+    </div>
+    <div class="p-nav">
+      <button data-p="a" data-v="0" class="on">俱乐部</button>
+      <button data-p="a" data-v="1">队 员</button>
+      <button data-p="a" data-v="2">成 就</button>
+      <button data-p="a" data-v="3">战 斗</button>
+      <button data-p="a" data-v="4">赛 事</button>
+    </div>
+    <div class="p-body">
+      <div class="view" data-p="a" data-v="0">
+        <div class="sec"><div class="sec-t">CLUB RESOURCE</div>
+          <div class="row"><span class="lb">预算</span><span class="val">1,250,000</span><div class="bar"><i style="width:62%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="row"><span class="lb">教练点</span><span class="val">48,200</span><div class="bar"><i style="width:80%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="row"><span class="lb">训练点</span><span class="val">9,600</span><div class="bar"><i style="width:38%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="kv" style="margin-top:14px"><span><b>世界分</b>3,420</span><span><b>粉丝</b>128.4K</span><span><b>级别</b>甲级联赛</span></div>
+          <div class="chips"><button class="btn">资源全满</button><button class="btn ghost">+10万</button><button class="btn ghost">勋章全解锁</button><button class="btn ghost">里程碑全领</button></div>
+        </div>
+      </div>
+      <div class="view" data-p="a" data-v="1" hidden>
+        <div class="sec"><div class="sec-t">ATHLETE ABILITY</div>
+          <div class="row"><span class="lb">进攻</span><span class="val">121</span><div class="bar"><i style="width:91%"></i></div></div>
+          <div class="row"><span class="lb">防守</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">发育</span><span class="val">121</span><div class="bar"><i style="width:90%"></i></div></div>
+          <div class="row"><span class="lb">反应</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">操作</span><span class="val">122</span><div class="bar"><i style="width:92%"></i></div></div>
+          <div class="kv" style="margin-top:14px"><span><b>能力</b>599 / 611</span><span><b>潜力</b>S+ ×5</span><span><b>英雄池</b>5 / 12</span></div>
+          <div class="chips"><button class="btn">当前全满</button><button class="btn ghost">全部全满</button><button class="btn ghost">潜力 S+</button><button class="btn ghost">英雄宗师</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-foot"><span>v3.2 · MIZUOF · www.mizu7.top</span><span class="sp"></span><button class="btn ghost donate">♥ 赞助作者</button></div>
+  </div>
+</div>
+
+<!-- ============ B ============ -->
+<div class="scheme b">
+  <div class="scheme-title"><span class="no">B</span><h2>极简纸白 · 工具感</h2><span class="tag">Minimal Light</span></div>
+  <div class="scheme-desc"><b>气质：</b>Linear / Notion 式现代工具。暖白底、单一蓝强调、圆角与细分割线。<b>适合：</b>信息密度高、最"不像外挂"、上手零学习成本；<b>代价：</b>与游戏画面叠加时对比过强，全屏游戏里偏亮。</div>
+  <div class="panel">
+    <div class="p-head">
+      <div class="p-title">电竞教父修改器 <span>Trainer</span></div>
+      <div class="p-status"><span>第2年 8月 第3周</span><span>预算 1,250,000</span><span class="live">● 战斗中</span></div>
+    </div>
+    <div class="p-nav">
+      <button data-p="b" data-v="0" class="on">俱乐部</button>
+      <button data-p="b" data-v="1">队员</button>
+      <button data-p="b" data-v="2">成就</button>
+      <button data-p="b" data-v="3">战斗</button>
+      <button data-p="b" data-v="4">赛事</button>
+    </div>
+    <div class="p-body">
+      <div class="view" data-p="b" data-v="0">
+        <div class="sec"><div class="sec-t">俱乐部资源</div>
+          <div class="row"><span class="lb">预算</span><span class="val">1,250,000</span><div class="bar"><i style="width:62%"></i></div><button class="btn ghost">设置</button></div>
+          <div class="row"><span class="lb">教练点</span><span class="val">48,200</span><div class="bar"><i style="width:80%"></i></div><button class="btn ghost">设置</button></div>
+          <div class="row"><span class="lb">训练点</span><span class="val">9,600</span><div class="bar"><i style="width:38%"></i></div><button class="btn ghost">设置</button></div>
+          <div class="kv" style="margin-top:14px"><span><b>世界分</b>3,420</span><span><b>粉丝</b>128.4K</span><span><b>级别</b>甲级联赛</span></div>
+          <div class="chips"><button class="btn">资源全满</button><button class="btn ghost">+10万</button><button class="btn ghost">勋章全解锁</button><button class="btn danger">清空英雄池</button></div>
+        </div>
+      </div>
+      <div class="view" data-p="b" data-v="1" hidden>
+        <div class="sec"><div class="sec-t">队员能力</div>
+          <div class="row"><span class="lb">进攻</span><span class="val">121</span><div class="bar"><i style="width:91%"></i></div></div>
+          <div class="row"><span class="lb">防守</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">发育</span><span class="val">121</span><div class="bar"><i style="width:90%"></i></div></div>
+          <div class="row"><span class="lb">反应</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">操作</span><span class="val">122</span><div class="bar"><i style="width:92%"></i></div></div>
+          <div class="kv" style="margin-top:14px"><span><b>能力</b>599 / 611</span><span><b>潜力</b>S+ ×5</span><span><b>英雄池</b>5 / 12</span></div>
+          <div class="chips"><button class="btn">当前全满</button><button class="btn ghost">全部全满</button><button class="btn ghost">潜力 S+</button><button class="btn ghost">英雄宗师</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-foot"><span>v3.2 · Mizuof · www.mizu7.top</span><span class="sp"></span><button class="btn ghost donate">♥ 赞助作者</button></div>
+  </div>
+</div>
+
+<!-- ============ C ============ -->
+<div class="scheme c">
+  <div class="scheme-title"><span class="no">C</span><h2>复古终端 · 调试美学</h2><span class="tag">Retro Terminal</span></div>
+  <div class="scheme-desc"><b>气质：</b>CRT 绿屏 / 开发者控制台。等宽字体、虚线框、方块进度条。<b>适合：</b>极客感最强，与"修改器"身份自洽，IMGUI 实现最简单（纯色+文本）；<b>代价：</b>信息呈现偏硬核，中文字体在等宽栅格下略违和。</div>
+  <div class="panel">
+    <div class="p-head">
+      <div class="p-title">&gt;_ ESPORTS-GODFATHER :: TRAINER</div>
+      <div class="p-status"><span>Y02.M08.W3</span><span>BUDGET 1,250,000</span><span class="live">[BATTLE]</span></div>
+    </div>
+    <div class="p-nav">
+      <button data-p="c" data-v="0" class="on">[俱乐部]</button>
+      <button data-p="c" data-v="1">[队员]</button>
+      <button data-p="c" data-v="2">[成就]</button>
+      <button data-p="c" data-v="3">[战斗]</button>
+      <button data-p="c" data-v="4">[赛事]</button>
+    </div>
+    <div class="p-body">
+      <div class="view" data-p="c" data-v="0">
+        <div class="sec"><div class="sec-t">--- CLUB.RESOURCE ---</div>
+          <div class="row"><span class="lb">BUDGET</span><span class="val">1,250,000</span><div class="bar"><i style="width:62%"></i></div><button class="btn ghost">[SET]</button></div>
+          <div class="row"><span class="lb">COACH.P</span><span class="val">48,200</span><div class="bar"><i style="width:80%"></i></div><button class="btn ghost">[SET]</button></div>
+          <div class="row"><span class="lb">TRAIN.P</span><span class="val">9,600</span><div class="bar"><i style="width:38%"></i></div><button class="btn ghost">[SET]</button></div>
+          <div class="kv" style="margin-top:14px"><span><b>WP</b>3,420</span><span><b>FANS</b>128.4K</span><span><b>CLASS</b>甲级</span></div>
+          <div class="chips"><button class="btn">[资源全满]</button><button class="btn ghost">[+10万]</button><button class="btn ghost">[勋章全解锁]</button><button class="btn ghost">[里程碑全领]</button></div>
+        </div>
+      </div>
+      <div class="view" data-p="c" data-v="1" hidden>
+        <div class="sec"><div class="sec-t">--- ATHLETE.ABILITY ---</div>
+          <div class="row"><span class="lb">进攻</span><span class="val">121</span><div class="bar"><i style="width:91%"></i></div></div>
+          <div class="row"><span class="lb">防守</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">发育</span><span class="val">121</span><div class="bar"><i style="width:90%"></i></div></div>
+          <div class="row"><span class="lb">反应</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">操作</span><span class="val">122</span><div class="bar"><i style="width:92%"></i></div></div>
+          <div class="kv" style="margin-top:14px"><span><b>ABILITY</b>599/611</span><span><b>POT</b>S+×5</span><span><b>POOL</b>5/12</span></div>
+          <div class="chips"><button class="btn">[当前全满]</button><button class="btn ghost">[全部全满]</button><button class="btn ghost">[潜力S+]</button><button class="btn danger">[清空英雄池]</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-foot"><span>v3.2 // MIZUOF // www.mizu7.top</span><span class="sp"></span><button class="btn ghost donate">[♥ DONATE]</button></div>
+  </div>
+</div>
+
+<!-- ============ D ============ -->
+<div class="scheme d">
+  <div class="scheme-title"><span class="no">D</span><h2>游戏原生拟态 · 紫电斜切</h2><span class="tag">Game-Native</span></div>
+  <div class="scheme-desc"><b>气质：</b>1:1 复刻电竞教父本体的紫/青渐变、斜切标签、金色主按钮。<b>适合：</b>与游戏 UI 融合度最高，"长在游戏里"；<b>代价：</b>渐变+斜切在 IMGUI 中需要渐变纹理与矩阵贴图，实现成本最高。</div>
+  <div class="panel">
+    <div class="p-head">
+      <div class="p-title">电竞教父 · 全能修改器</div>
+      <div class="p-status"><span>第2年 8月 第3周</span><span>预算 1,250,000</span><span class="live">● 战斗中</span></div>
+    </div>
+    <div class="p-nav">
+      <button data-p="d" data-v="0" class="on"><span>俱乐部</span></button>
+      <button data-p="d" data-v="1"><span>队员</span></button>
+      <button data-p="d" data-v="2"><span>成就</span></button>
+      <button data-p="d" data-v="3"><span>战斗</span></button>
+      <button data-p="d" data-v="4"><span>赛事</span></button>
+    </div>
+    <div class="p-body">
+      <div class="view" data-p="d" data-v="0">
+        <div class="sec"><div class="sec-t">俱乐部资源</div>
+          <div class="row"><span class="lb">预算</span><span class="val">1,250,000</span><div class="bar"><i style="width:62%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="row"><span class="lb">教练点</span><span class="val">48,200</span><div class="bar"><i style="width:80%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="row"><span class="lb">训练点</span><span class="val">9,600</span><div class="bar"><i style="width:38%"></i></div><button class="btn ghost">设 置</button></div>
+          <div class="kv" style="margin-top:14px"><span><b>世界分</b>3,420</span><span><b>粉丝</b>128.4K</span><span><b>级别</b>甲级联赛</span></div>
+          <div class="chips"><button class="btn">资源全满</button><button class="btn ghost">+10万</button><button class="btn hex">勋章全解锁</button><button class="btn ghost">里程碑全领</button></div>
+        </div>
+      </div>
+      <div class="view" data-p="d" data-v="1" hidden>
+        <div class="sec"><div class="sec-t">队员能力</div>
+          <div class="row"><span class="lb">进攻</span><span class="val">121</span><div class="bar"><i style="width:91%"></i></div></div>
+          <div class="row"><span class="lb">防守</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">发育</span><span class="val">121</span><div class="bar"><i style="width:90%"></i></div></div>
+          <div class="row"><span class="lb">反应</span><span class="val">118</span><div class="bar"><i style="width:88%"></i></div></div>
+          <div class="row"><span class="lb">操作</span><span class="val">122</span><div class="bar"><i style="width:92%"></i></div></div>
+          <div class="kv" style="margin-top:14px"><span><b>能力</b>599 / 611</span><span><b>潜力</b>S+ ×5</span><span><b>英雄池</b>5 / 12</span></div>
+          <div class="chips"><button class="btn">当前全满</button><button class="btn ghost">全部全满</button><button class="btn hex">潜力 S+</button><button class="btn ghost">英雄宗师</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="p-foot"><span>v3.2 · MIZUOF · www.mizu7.top</span><span class="sp"></span><button class="btn donate">♥ 赞助作者</button></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.p-nav button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.dataset.p, v = btn.dataset.v;
+      document.querySelectorAll(`.p-nav button[data-p="${p}"]`).forEach(b => b.classList.toggle('on', b === btn));
+      document.querySelectorAll(`.view[data-p="${p}"]`).forEach(vw => vw.hidden = vw.dataset.v !== v);
+    });
+  });
+</script>
+</body>
+</html>
