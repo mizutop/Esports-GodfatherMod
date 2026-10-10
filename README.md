@@ -3,11 +3,8 @@
 电竞教父 MelonLoader Mod — 游戏内修改面板，按 F1 打开。
 
 ---
-
-![menu screenshot](DebugMod/Image/0.png)
-![menu screenshot](DebugMod/Image/1.png)
-![menu screenshot](DebugMod/Image/2.png)
-![menu screenshot](DebugMod/Image/3.png)
+![menu screenshot](1.png)
+![menu screenshot](2.png)
 ## 安装方法
 
 ### 1. 安装 MelonLoader
@@ -21,7 +18,7 @@
 打开 MelonLoader.Installer，按以下步骤操作：
 
 1. 在列表中找到 **Esport Godfather**（电竞教父）
-2. **Install v0.7.2**（越新越好，但看体质；开发环境为 v0.7.2）
+2. **Install v0.7.2**（越新越好，但看体质；开发环境为 v0.7.3）
 3. 选择 **MonoBleedingEdge** 版本（游戏使用 Mono，非 IL2CPP）
 4. 安装完成后，**运行一次游戏**，务必进入游戏主界面再退出
 5. 游戏根目录出现 `MelonLoader/` 和 `Mods/` 文件夹即安装成功
